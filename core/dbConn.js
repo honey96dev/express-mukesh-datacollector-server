@@ -6,7 +6,7 @@ import config, {mongoDb} from './config';
 let db;
 
 const connect = () => {
-    const url = sprintfJs.sprintf('mongodb://%s:%s@%s:%d', encodeURIComponent(mongoDb.username), mongoDb.password, mongoDb.host, mongoDb.port);
+    const url = sprintfJs.sprintf('mongodb://%s:%s@%s:%d/%s', encodeURIComponent(mongoDb.username), mongoDb.password, mongoDb.host, mongoDb.port, mongoDb.database);
 
     Mongo.getConnection(url, {
         poolSize: 10,
