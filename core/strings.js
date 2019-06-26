@@ -9,4 +9,7 @@ module.exports = {
     successfullySignedIn: 'Successfully signed in!',
     successfullySignedUp: 'Successfully registered!',
     successfullySignedOut: 'Successfully signed out!',
+    successfullyRegistered: 'Successfully registered!',
+    successfullyEdited: 'Successfully edited!',
+    successfullyDeleted: 'Successfully deleted!',
 };

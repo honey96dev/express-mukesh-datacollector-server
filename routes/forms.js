@@ -1,9 +1,11 @@
 import express from 'express';
-const router = express.Router();
-import { Mongo } from 'mongodb-pool';
+import {Mongo} from 'mongodb-pool';
+import {ObjectID} from 'mongodb';
 import {dbTables} from '../core/config';
 import strings from '../core/strings';
-import myCrypto from '../core/myCrypto';
+import sprintfJs from 'sprintf-js';
+
+const router = express.Router();
 
 const listProc = (req, res, next) => {
     const params = req.qeury;
@@ -38,7 +40,9 @@ const addProc = (req, res, next) => {
     const client = Mongo.getDb();
     const db = client.db('mukesh_elastic');
     const collection = db.collection(dbTables.forms);
-    collection.insertOne({name, columns}, (err, result) => {
+    let today = new Date();
+    today = sprintfJs.sprintf("%02d/%02d/%04d", today.getMonth() + 1, today.getDate(), today.getFullYear());
+    collection.insertOne({name, columns, createdDate: today, lastModifiedDate: today}, (err, result) => {
         if (err) {
             console.warn(err);
 
@@ -49,82 +53,75 @@ const addProc = (req, res, next) => {
         } else {
             res.status(200).send({
                 result: strings.success,
-                message: strings.successfullySignedUp,
+                message: strings.successfullyRegistered,
             });
         }
     });
 };
 
-const registerProc = (req, res, next) => {
+const editProc = (req, res, next) => {
     const params = req.body;
-    const email = params.email;
+    const _id = params._id;
     const name = params.name;
-    const password = params.password;
-    const role = params.role;
-    const hash = myCrypto.hmacHex(password);
+    const columns = params.columns;
 
     const client = Mongo.getDb();
     const db = client.db('mukesh_elastic');
-    const collection = db.collection(dbTables.users);
+    const collection = db.collection(dbTables.forms);
+    let today = new Date();
+    today = sprintfJs.sprintf("%02d/%02d/%04d", today.getMonth() + 1, today.getDate(), today.getFullYear());
+    collection.updateOne({_id: ObjectID(_id)}, {$set: {name, columns, lastModifiedDate: today}}, (err, result) => {
+        if (err) {
+            console.warn(err);
 
-    collection.findOne({email}).then((value) => {
-        if (value) {
             res.status(200).send({
                 result: strings.error,
-                message: strings.emailAlreadyRegistered,
+                message: strings.unknownServerError,
             });
         } else {
-            let document = {
-                email,
-                name,
-                hash,
-                role,
-                allow: 0,
-            };
-            collection.insertOne(document, (err, result) => {
-                if (err) {
-                    console.warn(err);
+            // console.log(result);
 
-                    res.status(200).send({
-                        result: strings.error,
-                        message: strings.unknownServerError,
-                    });
-                } else {
-                    res.status(200).send({
-                        result: strings.success,
-                        message: strings.successfullySignedUp,
-                    });
-                }
-            }).catch((reason) => {
-                console.warn(reason);
-
-                res.status(200).send({
-                    result: strings.error,
-                    message: strings.unknownServerError,
-                });
+            res.status(200).send({
+                result: strings.success,
+                message: strings.successfullyEdited,
             });
         }
-    }).catch((reason) => {
-        console.warn(reason);
-
-        res.status(200).send({
-            result: strings.error,
-            message: strings.unknownServerError,
-        });
     });
 };
 
-const signOutProc = (req, res, next) => {
-    res.status(200).send({
-        result: strings.success,
-        message: strings.successfullySignedOut,
+const deleteProc = (req, res, next) => {
+    const params = req.query;
+    const _id = params._id;
+
+    const client = Mongo.getDb();
+    const db = client.db('mukesh_elastic');
+    const collection = db.collection(dbTables.forms);
+    collection.deleteOne({_id: ObjectID(_id)}, (err, result) => {
+        if (err) {
+            console.warn(err);
+
+            res.status(200).send({
+                result: strings.error,
+                message: strings.unknownServerError,
+            });
+        } else {
+            // console.log(result);
+
+            res.status(200).send({
+                result: strings.success,
+                message: strings.successfullyDeleted,
+            });
+        }
     });
 };
 
 router.get('/', listProc);
+router.post('/', addProc);
+router.put('/', editProc);
+router.delete('/', deleteProc);
 router.get('/list', listProc);
 router.post('/add', addProc);
-router.post('/register', registerProc);
-router.post('/signout', signOutProc);
+router.put('/edit', editProc);
+router.delete('/delete', deleteProc);
 
 module.exports = router;

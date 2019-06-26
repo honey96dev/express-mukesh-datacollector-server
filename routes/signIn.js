@@ -21,7 +21,7 @@ const signInProc = (req, res, next) => {
                     res.status(200).send({
                         result: strings.success,
                         message: strings.successfullySignedIn,
-                        role: value.role,
+                        data: value,
                     });
                 } else {
                     res.status(200).send({
