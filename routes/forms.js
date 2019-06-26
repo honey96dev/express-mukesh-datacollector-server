@@ -5,58 +5,18 @@ import {dbTables} from '../core/config';
 import strings from '../core/strings';
 import myCrypto from '../core/myCrypto';
 
-const signInProc = (req, res, next) => {
-    const params = req.body;
-    const email = params.email;
-    const password = params.password;
-    const hash = myCrypto.hmacHex(password);
+const listProc = (req, res, next) => {
+    const params = req.qeury;
 
     const client = Mongo.getDb();
     const db = client.db('mukesh_elastic');
-    const collection = db.collection(dbTables.users);
-    collection.findOne({email}).then((value) => {
-        if (value) {
-            if (value.hash == hash) {
-                if (value.allow == 1) {
-                    res.status(200).send({
-                        result: strings.success,
-                        message: strings.successfullySignedIn,
-                        role: value.role,
-                    });
-                } else {
-                    res.status(200).send({
-                        result: strings.error,
-                        message: strings.accountNowAllowed,
-                    });
-                }
-            } else {
-                res.status(200).send({
-                    result: strings.error,
-                    message: strings.passwordIncorrect,
-                });
-            }
-            // collection.findOne({email, hash}).then((value) => {
-            //     if (value) {
-            //     } else {
-            //         res.status(200).send({
-            //             result: strings.error,
-            //             message: strings.passwordIncorrect,
-            //         });
-            //     }
-            // }).catch((reason) => {
-            //     console.warn(reason);
-            //
-            //     res.status(200).send({
-            //         result: strings.error,
-            //         message: strings.unknownServerError,
-            //     });
-            // });
-        } else {
-            res.status(200).send({
-                result: strings.error,
-                message: strings.emailNotRegistered,
-            });
-        }
+    const collection = db.collection(dbTables.forms);
+    collection.find({}).toArray().then((value) => {
+        // console.log(value);
+        res.status(200).send({
+            result: strings.success,
+            data: value,
+        })
     }).catch((reason) => {
         console.warn(reason);
 
@@ -64,6 +24,34 @@ const signInProc = (req, res, next) => {
             result: strings.error,
             message: strings.unknownServerError,
         });
+    });
+};
+
+const addProc = (req, res, next) => {
+    const params = req.body;
+    const name = params.name;
+    const columns = params.columns;
+    // console.log(name, columns);
+    // res.send('');
+    // return;
+
+    const client = Mongo.getDb();
+    const db = client.db('mukesh_elastic');
+    const collection = db.collection(dbTables.forms);
+    collection.insertOne({name, columns}, (err, result) => {
+        if (err) {
+            console.warn(err);
+
+            res.status(200).send({
+                result: strings.error,
+                message: strings.unknownServerError,
+            });
+        } else {
+            res.status(200).send({
+                result: strings.success,
+                message: strings.successfullySignedUp,
+            });
+        }
     });
 };
 
@@ -95,7 +83,7 @@ const registerProc = (req, res, next) => {
             };
             collection.insertOne(document, (err, result) => {
                 if (err) {
-                    console.warn(reason);
+                    console.warn(err);
 
                     res.status(200).send({
                         result: strings.error,
@@ -107,6 +95,13 @@ const registerProc = (req, res, next) => {
                         message: strings.successfullySignedUp,
                     });
                 }
+            }).catch((reason) => {
+                console.warn(reason);
+
+                res.status(200).send({
+                    result: strings.error,
+                    message: strings.unknownServerError,
+                });
             });
         }
     }).catch((reason) => {
@@ -126,7 +121,9 @@ const signOutProc = (req, res, next) => {
     });
 };
 
-router.post('/signin', signInProc);
+router.get('/', listProc);
+router.get('/list', listProc);
+router.post('/add', addProc);
 router.post('/register', registerProc);
 router.post('/signout', signOutProc);
 
