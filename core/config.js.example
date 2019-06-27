@@ -14,5 +14,6 @@ module.exports = {
     dbTables: {
         users: 'users',
         forms: 'forms',
+        reports: 'reports',
     },
 };
