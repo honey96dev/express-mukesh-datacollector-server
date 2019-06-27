@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import { Mongo } from 'mongodb-pool';
-import {dbTables, server} from '../core/config';
+import {dbTables, mongoDb, server} from '../core/config';
 import strings from '../core/strings';
 import myCrypto from '../core/myCrypto';
 
@@ -16,7 +16,7 @@ const signInProc = (req, res, next) => {
     const hash = myCrypto.hmacHex(password);
 
     const client = Mongo.getDb();
-    const db = client.db('mukesh_elastic');
+    const db = client.db(mongoDb.database);
     const collection = db.collection(dbTables.admins);
     collection.findOne({email}).then((value) => {
         if (value) {
@@ -85,7 +85,7 @@ const registerProc = (req, res, next) => {
     const hash = myCrypto.hmacHex(password);
 
     const client = Mongo.getDb();
-    const db = client.db('mukesh_elastic');
+    const db = client.db(mongoDb.database);
     const collection = db.collection(dbTables.users);
 
     collection.findOne({email}).then((value) => {

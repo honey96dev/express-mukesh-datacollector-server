@@ -1,10 +1,10 @@
 import express from 'express';
-const router = express.Router();
-import { Mongo } from 'mongodb-pool';
-import {dbTables, server} from '../core/config';
+import {Mongo} from 'mongodb-pool';
+import {dbTables, mongoDb, server} from '../core/config';
 import strings from '../core/strings';
-import myCrypto from '../core/myCrypto';
 import {ObjectID} from "mongodb";
+
+const router = express.Router();
 
 const indexProc = (req, res, next) => {
     const styles = [
@@ -33,7 +33,7 @@ const usersListProc = (req, res, next) => {
     const params = req.query;
 
     const client = Mongo.getDb();
-    const db = client.db('mukesh_elastic');
+    const db = client.db(mongoDb.database);
     const collection = db.collection(dbTables.users);
     collection.find({}).toArray().then((value) => {
         // console.log(value);
@@ -61,7 +61,7 @@ const userSaveProc = (req, res, next) => {
 
 
     const client = Mongo.getDb();
-    const db = client.db('mukesh_elastic');
+    const db = client.db(mongoDb.database);
     const collection = db.collection(dbTables.users);
     collection.updateOne({_id: ObjectID(_id)}, {$set: params}, (err, result) => {
         // console.log(value);
@@ -87,7 +87,7 @@ const userDeleteProc = (req, res, next) => {
     const _id = params.userId;
     console.log(params);
     const client = Mongo.getDb();
-    const db = client.db('mukesh_elastic');
+    const db = client.db(mongoDb.database);
     const collection = db.collection(dbTables.users);
     collection.deleteOne({_id: ObjectID(_id)}, (err, result) => {
         // console.log(value);

@@ -1,7 +1,7 @@
 import express from 'express';
 import {Mongo} from 'mongodb-pool';
 import {ObjectID} from 'mongodb';
-import {dbTables} from '../core/config';
+import {dbTables, mongoDb} from '../core/config';
 import strings from '../core/strings';
 import sprintfJs from 'sprintf-js';
 
@@ -11,7 +11,7 @@ const listProc = (req, res, next) => {
     const params = req.query;
 
     const client = Mongo.getDb();
-    const db = client.db('mukesh_elastic');
+    const db = client.db(mongoDb.database);
     const collection = db.collection(dbTables.forms);
     collection.aggregate([
         {
@@ -24,6 +24,10 @@ const listProc = (req, res, next) => {
         }
     ]).toArray().then((value) => {
         // console.log(value);
+        let index = 0;
+        for (let item of value) {
+            item['autoIndex'] = ++index;
+        }
         res.status(200).send({
             result: strings.success,
             data: value,
@@ -57,7 +61,7 @@ const listByFormProc = (req, res, next) => {
     const formId = params.formId;
 
     const client = Mongo.getDb();
-    const db = client.db('mukesh_elastic');
+    const db = client.db(mongoDb.database);
     const collection = db.collection(dbTables.reports);
     collection.find({formId: ObjectID(formId)}).toArray().then((value) => {
         // console.log(value);
@@ -79,7 +83,7 @@ const addProc = (req, res, next) => {
     let params = req.body;
 
     const client = Mongo.getDb();
-    const db = client.db('mukesh_elastic');
+    const db = client.db(mongoDb.database);
     const collection = db.collection(dbTables.reports);
     let today = new Date();
     today = sprintfJs.sprintf("%02d/%02d/%04d", today.getMonth() + 1, today.getDate(), today.getFullYear());
@@ -118,7 +122,7 @@ const editProc = (req, res, next) => {
     const _id = params._id;
 
     const client = Mongo.getDb();
-    const db = client.db('mukesh_elastic');
+    const db = client.db(mongoDb.database);
     const collection = db.collection(dbTables.reports);
     let today = new Date();
     today = sprintfJs.sprintf("%02d/%02d/%04d", today.getMonth() + 1, today.getDate(), today.getFullYear());
@@ -158,7 +162,7 @@ const deleteProc = (req, res, next) => {
     const _id = params._id;
 
     const client = Mongo.getDb();
-    const db = client.db('mukesh_elastic');
+    const db = client.db(mongoDb.database);
     const collection = db.collection(dbTables.reports);
     collection.deleteOne({_id: ObjectID(_id)}, (err, result) => {
         if (err) {
