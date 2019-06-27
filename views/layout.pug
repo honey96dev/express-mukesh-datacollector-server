@@ -1,7 +1,268 @@
 doctype html
-html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+html(lang='en')
+    head
+        base(href!=baseUrl)
+        meta(charset='utf-8')
+        title Admin
+        meta(name='description', content='Row details examples')
+        meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+        script(src!='https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js')
+        script.
+            WebFont.load({
+                google: {
+                    "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700"]
+                },
+                active: function () {
+                    sessionStorage.fonts = true;
+                }
+            });
+        link(href!='vendors/general/perfect-scrollbar/css/perfect-scrollbar.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/tether/dist/css/tether.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/bootstrap-datetime-picker/css/bootstrap-datetimepicker.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/bootstrap-timepicker/css/bootstrap-timepicker.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/bootstrap-daterangepicker/daterangepicker.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/bootstrap-select/dist/css/bootstrap-select.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/select2/dist/css/select2.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/ion-rangeslider/css/ion.rangeSlider.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/nouislider/distribute/nouislider.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/owl.carousel/dist/assets/owl.carousel.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/owl.carousel/dist/assets/owl.theme.default.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/dropzone/dist/dropzone.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/summernote/dist/summernote.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/bootstrap-markdown/css/bootstrap-markdown.min.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/animate.css/animate.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/toastr/build/toastr.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/morris.js/morris.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/sweetalert2/dist/sweetalert2.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/socicon/css/socicon.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/custom/vendors/line-awesome/css/line-awesome.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/custom/vendors/flaticon/flaticon.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/custom/vendors/flaticon2/flaticon.css', rel='stylesheet', type='text/css')
+        link(href!='vendors/general/@fortawesome/fontawesome-free/css/all.min.css', rel='stylesheet', type='text/css')
+        link(href!='stylesheets/style.bundle.css', rel='stylesheet', type='text/css')
+        link(href!='stylesheets/skins/header/base/light.css', rel='stylesheet', type='text/css')
+        link(href!='stylesheets/skins/header/menu/light.css', rel='stylesheet', type='text/css')
+        link(href!='stylesheets/skins/brand/light.css', rel='stylesheet', type='text/css')
+        link(href!='stylesheets/skins/aside/light.css', rel='stylesheet', type='text/css')
+        link(rel='shortcut icon', href!='images/favicon.ico')
+        for style in styles
+            link(href!=style, rel='stylesheet')
+    body.kt-quick-panel--right.kt-demo-panel--right.kt-offcanvas-panel--right.kt-header--fixed.kt-header-mobile--fixed.kt-subheader--fixed.kt-subheader--enabled.kt-subheader--solid.kt-aside--enabled.kt-aside--fixed.kt-page--loading
+        #kt_header_mobile.kt-header-mobile.kt-header-mobile--fixed
+            .kt-header-mobile__logo
+                a(href!=baseUrl + 'account/info')
+                    //img.kt-aside__logo-image(alt='Logo', style='margin-top: 1rem;', src!='images/logo-def2.png')
+            .kt-header-mobile__toolbar
+                button#kt_aside_mobile_toggler.kt-header-mobile__toggler.kt-header-mobile__toggler--left
+                    span
+                button#kt_header_mobile_topbar_toggler.kt-header-mobile__topbar-toggler
+                    i.flaticon-more
+        .kt-grid.kt-grid--hor.kt-grid--root
+            .kt-grid__item.kt-grid__item--fluid.kt-grid.kt-grid--ver.kt-page
+                button#kt_aside_close_btn.kt-aside-close
+                    i.la.la-close
+                #kt_aside.kt-aside.kt-aside--fixed.kt-grid__item.kt-grid.kt-grid--desktop.kt-grid--hor-desktop
+                    #kt_aside_brand.kt-aside__brand.kt-grid__item
+                        .kt-aside__brand-logo
+                            a(href!=baseUrl)
+                                //img.kt-aside__logo-image(alt='Logo', src!='images/logo-def2.png')
+                    #kt_aside_menu_wrapper.kt-aside-menu-wrapper.kt-grid__item.kt-grid__item--fluid
+                        #kt_aside_menu.kt-aside-menu(data-ktmenu-vertical='1', data-ktmenu-scroll='1', data-ktmenu-dropdown-timeout='500')
+                            ul.kt-menu__nav
+                                //if uri == 'dashboard/index'
+                                //    li.kt-menu__item.kt-menu__item--active(aria-haspopup='true')
+                                //        a.kt-menu__link(href!=baseUrl)
+                                //            span.kt-menu__link-icon
+                                //                i.fa.fa-city.margin-auto
+                                //            span.kt-menu__link-text Dashboard
+                                //else
+                                //    li.kt-menu__item(aria-haspopup='true')
+                                //        a.kt-menu__link(href!=baseUrl)
+                                //            span.kt-menu__link-icon
+                                //                i.fa.fa-city.margin-auto
+                                //            span.kt-menu__link-text Dashboard
+                                //li.kt-menu__section
+                                //    h4.kt-menu__section-text BitMEX Accounts
+                                //    i.kt-menu__section-icon.flaticon-more-v2
+                                ////li.kt-menu__item(aria-haspopup='true')
+                                ////    a.kt-menu__link(href!=baseUrl + 'account/info')
+                                ////        span.kt-menu__link-icon
+                                ////            i.fa.fa-info-circle.margin-auto
+                                ////        span.kt-menu__link-text Information
+                                //if uri == 'accounts/bitmex'
+                                //    li.kt-menu__item.kt-menu__item--active(aria-haspopup='true')
+                                //        a.kt-menu__link(href!=baseUrl + 'accounts/bitmex')
+                                //            span.kt-menu__link-icon
+                                //                i.fa.fa-user.margin-auto
+                                //            span.kt-menu__link-text Management
+                                //else
+                                //    li.kt-menu__item(aria-haspopup='true')
+                                //        a.kt-menu__link(href!=baseUrl + 'accounts/bitmex')
+                                //            span.kt-menu__link-icon
+                                //                i.fa.fa-user.margin-auto
+                                //            span.kt-menu__link-text Management
+                                //if uri == 'accounts/wallet'
+                                //    li.kt-menu__item.kt-menu__item--active(aria-haspopup='true')
+                                //        a.kt-menu__link(href!=baseUrl + 'accounts/wallet')
+                                //            span.kt-menu__link-icon
+                                //                i.fa.fa-wallet.margin-auto
+                                //            span.kt-menu__link-text Balance
+                                //else
+                                //    li.kt-menu__item(aria-haspopup='true')
+                                //        a.kt-menu__link(href!=baseUrl + 'accounts/wallet')
+                                //            span.kt-menu__link-icon
+                                //                i.fa.fa-wallet.margin-auto
+                                //            span.kt-menu__link-text Balance
+                                li.kt-menu__section
+                                    h4.kt-menu__section-text Users
+                                    i.kt-menu__section-icon.flaticon-more-v2
+                                if uri == 'users'
+                                    li.kt-menu__item.kt-menu__item--active(aria-haspopup='true')
+                                        a.kt-menu__link(href!=baseUrl)
+                                            span.kt-menu__link-icon
+                                                i.fa.fa-user.margin-auto
+                                            span.kt-menu__link-text Management
+                                else
+                                    li.kt-menu__item(aria-haspopup='true')
+                                        a.kt-menu__link(href!=baseUrl)
+                                            span.kt-menu__link-icon
+                                                i.fa.fa-user.margin-auto
+                                            span.kt-menu__link-text Management
+                                //li.kt-menu__section
+                                //    h4.kt-menu__section-text Log
+                                //    i.kt-menu__section-icon.flaticon-more-v2
+                                //if uri == 'dashboard/logs'
+                                //    li.kt-menu__item.kt-menu__item--active(aria-haspopup='true')
+                                //        a.kt-menu__link(href!=baseUrl + 'dashboard/logs')
+                                //            span.kt-menu__link-icon
+                                //                i.fa.fa-user.margin-auto
+                                //            span.kt-menu__link-text View
+                                //else
+                                //    li.kt-menu__item(aria-haspopup='true')
+                                //        a.kt-menu__link(href!=baseUrl + 'dashboard/logs')
+                                //            span.kt-menu__link-icon
+                                //                i.fa.fa-history.margin-auto
+                                //            span.kt-menu__link-text View
+                #kt_wrapper.kt-grid__item.kt-grid__item--fluid.kt-grid.kt-grid--hor.kt-wrapper
+                    #kt_header.kt-header.kt-grid__item.kt-header--fixed
+                        button#kt_header_menu_mobile_close_btn.kt-header-menu-wrapper-close
+                            i.la.la-close
+                        #kt_header_menu_wrapper.kt-header-menu-wrapper
+                            #kt_header_menu.kt-header-menu.kt-header-menu-mobile.kt-header-menu--layout-default
+                        .kt-header__topbar
+                            .kt-header__topbar-item.kt-header__topbar-item--user
+                                .kt-header__topbar-wrapper(data-toggle='dropdown', data-offset='0px,0px')
+                                    .kt-header__topbar-user
+                                        span.kt-header__topbar-welcome.kt-hidden-mobile Hi,
+                                        span.kt-header__topbar-username.kt-hidden-mobile Sean
+                                        span.kt-badge.kt-badge--username.kt-badge--unified-success.kt-badge--lg.kt-badge--rounded.kt-badge--bold S
+                                .dropdown-menu.dropdown-menu-fit.dropdown-menu-right.dropdown-menu-anim.dropdown-menu-top-unround.dropdown-menu-xl
+                                    .kt-user-card.kt-user-card--skin-light.kt-notification-item-padding-x(style='background-image: url(images/misc/bg-1.jpg)')
+                                        .kt-user-card__avatar
+                                            span.kt-badge.kt-badge--lg.kt-badge--rounded.kt-badge--bold.kt-font-success S
+                                        .kt-user-card__name
+                                            | Sean Stone
+                                    .kt-notification
+                                        a.kt-notification__item(href!='#')
+                                            .kt-notification__item-icon
+                                                i.flaticon2-calendar-3.kt-font-success
+                                            .kt-notification__item-details
+                                                .kt-notification__item-title.kt-font-bold
+                                                    | My Profile
+                                                .kt-notification__item-time
+                                                    | Account settings and more
+                                        .kt-notification__custom.kt-space-between
+                                            a.btn.btn-label.btn-label-brand.btn-sm.btn-bold(href!=baseUrl + 'admin-signin/signout') Sign Out
+                    .kt-grid__item.kt-grid__item--fluid.kt-grid.kt-grid--hor
+                        block mainContent
+                    #kt_footer.kt-footer.kt-grid__item.kt-grid.kt-grid--desktop.kt-grid--ver-desktop
+                        .kt-footer__copyright
+                            | 2019 © 
+                            a.kt-link(href!='http://keenthemes.com/metronic', target='_blank') Keenthemes
+        #kt_scrolltop.kt-scrolltop
+            i.fa.fa-arrow-up
+        script.
+            var KTAppOptions = {
+                "colors": {
+                    "state": {
+                        "brand": "#5d78ff",
+                        "dark": "#282a3c",
+                        "light": "#ffffff",
+                        "primary": "#5867dd",
+                        "success": "#34bfa3",
+                        "info": "#36a3f7",
+                        "warning": "#ffb822",
+                        "danger": "#fd3995"
+                    },
+                    "base": {
+                        "label": ["#c5cbe3", "#a1a8c3", "#3d4465", "#3e4466"],
+                        "shape": ["#f0f3ff", "#d9dffa", "#afb4d4", "#646c9a"]
+                    }
+                }
+            };
+        script(src!='vendors/general/jquery/dist/jquery.js', type='text/javascript')
+        script(src!='vendors/general/popper.js/dist/umd/popper.js', type='text/javascript')
+        script(src!='vendors/general/bootstrap/dist/js/bootstrap.min.js', type='text/javascript')
+        script(src!='vendors/general/js-cookie/src/js.cookie.js', type='text/javascript')
+        script(src!='vendors/general/moment/min/moment.min.js', type='text/javascript')
+        script(src!='vendors/general/tooltip.js/dist/umd/tooltip.min.js', type='text/javascript')
+        script(src!='vendors/general/perfect-scrollbar/dist/perfect-scrollbar.js', type='text/javascript')
+        script(src!='vendors/general/sticky-js/dist/sticky.min.js', type='text/javascript')
+        script(src!='vendors/general/wnumb/wNumb.js', type='text/javascript')
+        script(src!='vendors/general/jquery-form/dist/jquery.form.min.js', type='text/javascript')
+        script(src!='vendors/general/block-ui/jquery.blockUI.js', type='text/javascript')
+        script(src!='vendors/general/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js', type='text/javascript')
+        script(src!='vendors/custom/js/vendors/bootstrap-datepicker.init.js', type='text/javascript')
+        script(src!='vendors/general/bootstrap-datetime-picker/js/bootstrap-datetimepicker.min.js', type='text/javascript')
+        script(src!='vendors/general/bootstrap-timepicker/js/bootstrap-timepicker.min.js', type='text/javascript')
+        script(src!='vendors/custom/js/vendors/bootstrap-timepicker.init.js', type='text/javascript')
+        script(src!='vendors/general/bootstrap-daterangepicker/daterangepicker.js', type='text/javascript')
+        script(src!='vendors/general/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js', type='text/javascript')
+        script(src!='vendors/general/bootstrap-maxlength/src/bootstrap-maxlength.js', type='text/javascript')
+        script(src!='vendors/custom/vendors/bootstrap-multiselectsplitter/bootstrap-multiselectsplitter.min.js', type='text/javascript')
+        script(src!='vendors/general/bootstrap-select/dist/js/bootstrap-select.js', type='text/javascript')
+        script(src!='vendors/general/bootstrap-switch/dist/js/bootstrap-switch.js', type='text/javascript')
+        script(src!='vendors/custom/js/vendors/bootstrap-switch.init.js', type='text/javascript')
+        script(src!='vendors/general/select2/dist/js/select2.full.js', type='text/javascript')
+        script(src!='vendors/general/ion-rangeslider/js/ion.rangeSlider.js', type='text/javascript')
+        script(src!='vendors/general/typeahead.js/dist/typeahead.bundle.js', type='text/javascript')
+        script(src!='vendors/general/handlebars/dist/handlebars.js', type='text/javascript')
+        script(src!='vendors/general/inputmask/dist/jquery.inputmask.bundle.js', type='text/javascript')
+        script(src!='vendors/general/inputmask/dist/inputmask/inputmask.date.extensions.js', type='text/javascript')
+        script(src!='vendors/general/inputmask/dist/inputmask/inputmask.numeric.extensions.js', type='text/javascript')
+        script(src!='vendors/general/nouislider/distribute/nouislider.js', type='text/javascript')
+        script(src!='vendors/general/owl.carousel/dist/owl.carousel.js', type='text/javascript')
+        script(src!='vendors/general/autosize/dist/autosize.js', type='text/javascript')
+        script(src!='vendors/general/clipboard/dist/clipboard.min.js', type='text/javascript')
+        script(src!='vendors/general/dropzone/dist/dropzone.js', type='text/javascript')
+        script(src!='vendors/general/summernote/dist/summernote.js', type='text/javascript')
+        script(src!='vendors/general/markdown/lib/markdown.js', type='text/javascript')
+        script(src!='vendors/general/bootstrap-markdown/js/bootstrap-markdown.js', type='text/javascript')
+        script(src!='vendors/custom/js/vendors/bootstrap-markdown.init.js', type='text/javascript')
+        script(src!='vendors/general/bootstrap-notify/bootstrap-notify.min.js', type='text/javascript')
+        script(src!='vendors/custom/js/vendors/bootstrap-notify.init.js', type='text/javascript')
+        script(src!='vendors/general/jquery-validation/dist/jquery.validate.js', type='text/javascript')
+        script(src!='vendors/general/jquery-validation/dist/additional-methods.js', type='text/javascript')
+        script(src!='vendors/custom/js/vendors/jquery-validation.init.js', type='text/javascript')
+        script(src!='vendors/general/toastr/build/toastr.min.js', type='text/javascript')
+        script(src!='vendors/general/raphael/raphael.js', type='text/javascript')
+        script(src!='vendors/general/morris.js/morris.js', type='text/javascript')
+        script(src!='vendors/general/chart.js/dist/Chart.bundle.js', type='text/javascript')
+        script(src!='vendors/custom/vendors/bootstrap-session-timeout/dist/bootstrap-session-timeout.min.js', type='text/javascript')
+        script(src!='vendors/custom/vendors/jquery-idletimer/idle-timer.min.js', type='text/javascript')
+        script(src!='vendors/general/waypoints/lib/jquery.waypoints.js', type='text/javascript')
+        script(src!='vendors/general/counterup/jquery.counterup.js', type='text/javascript')
+        script(src!='vendors/general/es6-promise-polyfill/promise.min.js', type='text/javascript')
+        script(src!='vendors/general/sweetalert2/dist/sweetalert2.min.js', type='text/javascript')
+        script(src!='vendors/custom/js/vendors/sweetalert2.init.js', type='text/javascript')
+        script(src!='vendors/general/jquery.repeater/src/lib.js', type='text/javascript')
+        script(src!='vendors/general/jquery.repeater/src/jquery.input.js', type='text/javascript')
+        script(src!='vendors/general/jquery.repeater/src/repeater.js', type='text/javascript')
+        script(src!='vendors/general/dompurify/dist/purify.js', type='text/javascript')
+        script(src!='javascripts/scripts.bundle.js', type='text/javascript')
+        //script(src!='javascripts/pages/crud/metronic-datatable/advanced/row-details.js', type='text/javascript')
+        for script in scripts
+            script(src!=script, type='text/javascript')

@@ -1,0 +1,64 @@
+extends ../layout
+
+block mainContent
+    #kt_content.kt-content.kt-grid__item.kt-grid__item--fluid
+        .kt-portlet.kt-portlet--mobile
+            .kt-portlet__head.kt-portlet__head--lg
+                .kt-portlet__head-label
+                    span.kt-portlet__head-icon
+                        i.fa.fa-user.margin-auto
+                    h3.kt-portlet__head-title
+                        | Users
+
+
+            .kt-portlet__body.kt-portlet__body--fit
+                //#auto_column_hide.kt-datatable
+                table.display(id='users' class="mdl-data-table")
+                    thead
+                        tr
+                            th Email
+                            th Name
+                            th Role
+                            th Allow
+                            th
+                            th
+                    tfoot
+                        tr
+                            th Email
+                            th Name
+                            th Role
+                            th Allow
+                            th
+                            th
+
+    #userDetailsModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='userDetailsModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5.modal-title(style='margin-top: 0') User Information
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                form#userDetailsForm.modal-body(action='/users/save', data-method='', novalidate='novalidate')
+                    input#userId.form-control(type='hidden', name='userId')
+                    //.modal-body
+                    .form-group.account-details
+                        label Email
+                        input#email.form-control(type='email', name='email', placeholder='Enter email')
+                    .form-group.account-details
+                        label Name
+                        input#name.form-control(type='name', name='name', placeholder='Enter name')
+                    .form-group.account-details
+                        label Role:
+                        select#role.form-control.kt-select2(name='role')
+                            option
+                            option(value='User1') User1
+                            option(value='User2') User2
+                    .form-group.account-details
+                        label Allow:
+                        select#allow.form-control.kt-select2(name='allow')
+                            option
+                            option(value='1') Yes
+                            option(value='0') No
+
+                .modal-footer
+                    button#closeModal.btn.btn-secondary(type='button', name='closeModal', data-dismiss='modal') Close
+                    button#saveUser.btn.btn-primary(type='button', name='saveUser') Save

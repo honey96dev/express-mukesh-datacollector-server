@@ -1,0 +1,19 @@
+div.dataTables_wrapper {
+    margin-bottom: 3em;
+}
+
+.kt-portlet__body.kt-portlet__body--fit {
+    padding: 1rem !important;
+}
+
+#position td {
+    cursor: pointer;
+}
+
+thead, th {
+    text-align: center !important;
+}
+
+.form-group.account-details {
+    margin-bottom: 1rem !important;
+}
