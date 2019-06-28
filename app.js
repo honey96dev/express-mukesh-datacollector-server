@@ -9,6 +9,7 @@ import adminSignInRouter from './routes/adminSignIn';
 import signInRouter from './routes/signIn';
 import formsRouter from './routes/forms';
 import reportsRouter from './routes/reports';
+import foldersRouter from './routes/folders';
 import config from './core/config';
 
 const app = express();
@@ -54,6 +55,7 @@ function alreadyLogin(req, res, next) {
 app.use('/signin', signInRouter);
 app.use('/forms', formsRouter);
 app.use('/reports', reportsRouter);
+app.use('/folders', foldersRouter);
 app.use('/admin-signin', alreadyLogin, adminSignInRouter);
 app.use('/', requiresLogin, adminRouter);
 // app.use('/users', usersRouter);
