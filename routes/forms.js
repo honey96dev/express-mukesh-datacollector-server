@@ -19,9 +19,17 @@ const listProc = (req, res, next) => {
                 from: dbTables.users,
                 localField : "userId",
                 foreignField : "_id",
-                as : "user"
-            }
-        }
+                as : "user",
+            },
+        },
+        {
+            $lookup:{
+                from: dbTables.reports,
+                localField : "_id",
+                foreignField : "formId",
+                as : "reports",
+            },
+        },
     ]).toArray().then((value) => {
         // console.log(value);
         let index = 0;

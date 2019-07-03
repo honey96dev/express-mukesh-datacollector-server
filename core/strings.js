@@ -12,4 +12,6 @@ module.exports = {
     successfullyRegistered: 'Successfully registered!',
     successfullyEdited: 'Successfully edited!',
     successfullyDeleted: 'Successfully deleted!',
+    folderManager: 'Folder Manager',
+    folderUser: 'Folder User',
 };
