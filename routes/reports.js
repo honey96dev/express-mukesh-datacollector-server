@@ -19,9 +19,9 @@ const listProc = (req, res, next) => {
                 from: dbTables.reports,
                 localField : "_id",
                 foreignField : "formId",
-                as : "reports"
-            }
-        }
+                as : "reports",
+            },
+        },
     ]).toArray().then((value) => {
         // console.log(value);
         let index = 0;
@@ -58,12 +58,13 @@ const listProc = (req, res, next) => {
 
 const listByFormProc = (req, res, next) => {
     const params = req.query;
+    const folderId = params.folderId;
     const formId = params.formId;
 
     const client = Mongo.getDb();
     const db = client.db(mongoDb.database);
     const collection = db.collection(dbTables.reports);
-    collection.find({formId: ObjectID(formId)}).toArray().then((value) => {
+    collection.find({folderId: ObjectID(folderId),formId: ObjectID(formId)}).toArray().then((value) => {
         // console.log(value);
         res.status(200).send({
             result: strings.success,
@@ -97,6 +98,7 @@ const addProc = (req, res, next) => {
         }
     });
 
+    newData['folderId'] = ObjectID(params.folderId);
     newData['formId'] = ObjectID(params.formId);
     newData['createdDate'] = today;
     newData['lastModifiedDate'] = today;
@@ -136,6 +138,7 @@ const editProc = (req, res, next) => {
         }
     });
 
+    newData['folderId'] = ObjectID(params.folderId);
     newData['formId'] = ObjectID(params.formId);
     newData['lastModifiedDate'] = today;
     collection.updateOne({_id: ObjectID(_id)}, {$set: newData}, (err, result) => {
